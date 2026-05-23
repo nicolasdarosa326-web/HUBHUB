@@ -1,0 +1,334 @@
+--// OS PEÇA HUB 👺
+
+repeat wait() until game:IsLoaded()
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local VirtualUser = game:GetService("VirtualUser")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+
+local plr = Players.LocalPlayer
+local chr = plr.Character or plr.CharacterAdded:Wait()
+
+-- ANTI AFK
+plr.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+ScreenGui.Name = "OsPecaHub"
+
+-- MAIN
+local Main = Instance.new("Frame")
+Main.Parent = ScreenGui
+Main.Size = UDim2.new(0,430,0,520)
+Main.Position = UDim2.new(0.5,-215,0.5,-260)
+Main.BackgroundColor3 = Color3.fromRGB(10,10,10)
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.Parent = Main
+MainCorner.CornerRadius = UDim.new(0,14)
+
+local MainStroke = Instance.new("UIStroke")
+MainStroke.Parent = Main
+MainStroke.Color = Color3.fromRGB(255,255,255)
+MainStroke.Thickness = 2
+
+-- TOP
+local Top = Instance.new("Frame")
+Top.Parent = Main
+Top.Size = UDim2.new(1,0,0,60)
+Top.BackgroundTransparency = 1
+
+-- LOGO IMAGE
+local Logo = Instance.new("ImageLabel")
+Logo.Parent = Top
+Logo.Size = UDim2.new(0,50,0,50)
+Logo.Position = UDim2.new(0,5,0,2)
+Logo.BackgroundTransparency = 1
+Logo.Image = "rbxassetid://107636967932981"
+
+-- EFEITO BRANCO NEON
+local Glow = Instance.new("UIStroke")
+Glow.Parent = Logo
+Glow.Color = Color3.fromRGB(255,255,255)
+Glow.Thickness = 2
+
+local Glow2 = Instance.new("UIGradient")
+Glow2.Parent = Glow
+
+-- TÍTULO
+local Title = Instance.new("TextLabel")
+Title.Parent = Top
+Title.Size = UDim2.new(1,-80,1,0)
+Title.Position = UDim2.new(0,65,0,0)
+Title.BackgroundTransparency = 1
+Title.Text = "OS PEÇA HUB 👺"
+Title.Font = Enum.Font.Arcade
+Title.TextSize = 28
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- BRILHO TEXTO
+local TextStroke = Instance.new("UIStroke")
+TextStroke.Parent = Title
+TextStroke.Color = Color3.fromRGB(255,255,255)
+TextStroke.Thickness = 1.5
+
+-- FECHAR MENU
+local Close = Instance.new("TextButton")
+Close.Parent = Top
+Close.Size = UDim2.new(0,40,0,40)
+Close.Position = UDim2.new(1,-50,0,10)
+Close.BackgroundColor3 = Color3.fromRGB(15,15,15)
+Close.Text = "X"
+Close.Font = Enum.Font.GothamBold
+Close.TextSize = 22
+Close.TextColor3 = Color3.fromRGB(255,255,255)
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.Parent = Close
+CloseCorner.CornerRadius = UDim.new(0,10)
+
+local CloseStroke = Instance.new("UIStroke")
+CloseStroke.Parent = Close
+CloseStroke.Color = Color3.fromRGB(255,255,255)
+CloseStroke.Thickness = 1.5
+
+-- MINI LOGO QUANDO FECHA
+local MiniLogo = Instance.new("ImageButton")
+MiniLogo.Parent = ScreenGui
+MiniLogo.Size = UDim2.new(0,70,0,70)
+MiniLogo.Position = UDim2.new(0,20,0.5,-35)
+MiniLogo.BackgroundColor3 = Color3.fromRGB(10,10,10)
+MiniLogo.Image = "rbxassetid://107636967932981"
+MiniLogo.Visible = false
+
+local MiniCorner = Instance.new("UICorner")
+MiniCorner.Parent = MiniLogo
+MiniCorner.CornerRadius = UDim.new(0,14)
+
+local MiniStroke = Instance.new("UIStroke")
+MiniStroke.Parent = MiniLogo
+MiniStroke.Color = Color3.fromRGB(255,255,255)
+MiniStroke.Thickness = 2
+
+-- SCROLL
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Parent = Main
+Scroll.Size = UDim2.new(1,-20,1,-80)
+Scroll.Position = UDim2.new(0,10,0,70)
+Scroll.CanvasSize = UDim2.new(0,0,0,700)
+Scroll.ScrollBarThickness = 4
+Scroll.BackgroundTransparency = 1
+
+local Layout = Instance.new("UIListLayout")
+Layout.Parent = Scroll
+Layout.Padding = UDim.new(0,10)
+
+-- BOTÃO
+local function CreateButton(text)
+    local Btn = Instance.new("TextButton")
+    Btn.Parent = Scroll
+    Btn.Size = UDim2.new(1,-10,0,50)
+    Btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
+    Btn.Text = text
+    Btn.Font = Enum.Font.GothamBold
+    Btn.TextSize = 18
+    Btn.TextColor3 = Color3.fromRGB(255,255,255)
+
+    local Corner = Instance.new("UICorner")
+    Corner.Parent = Btn
+    Corner.CornerRadius = UDim.new(0,10)
+
+    local Stroke = Instance.new("UIStroke")
+    Stroke.Parent = Btn
+    Stroke.Color = Color3.fromRGB(255,255,255)
+    Stroke.Thickness = 1.5
+
+    return Btn
+end
+
+-- BOTÕES
+local AutoFarm = CreateButton("AUTO FARM LEVEL")
+local AutoBoss = CreateButton("AUTO KILL ALL BOSS")
+local KillAura = CreateButton("KILL AURA")
+local AutoSea = CreateButton("AUTO SEA BEAST")
+local SpawnBoat = CreateButton("SPAWN BOAT")
+local TPIsland = CreateButton("TELEPORT LAST ISLAND")
+
+-- ABRIR / FECHAR
+Close.MouseButton1Click:Connect(function()
+	Main.Visible = false
+	MiniLogo.Visible = true
+end)
+
+MiniLogo.MouseButton1Click:Connect(function()
+	Main.Visible = true
+	MiniLogo.Visible = false
+end)
+
+-- TP
+local function TP(cf)
+    if chr and chr:FindFirstChild("HumanoidRootPart") then
+        chr.HumanoidRootPart.CFrame = cf
+    end
+end
+
+-- AUTO FARM
+_G.AutoFarm = false
+
+AutoFarm.MouseButton1Click:Connect(function()
+
+    _G.AutoFarm = not _G.AutoFarm
+
+    while _G.AutoFarm do
+        wait()
+
+        pcall(function()
+
+            for i,v in pairs(workspace.Enemies:GetChildren()) do
+
+                if v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+
+                    repeat wait()
+
+                        TP(v.HumanoidRootPart.CFrame * CFrame.new(0,15,0))
+
+                        VirtualInputManager:SendMouseButtonEvent(
+                            0,0,0,true,game,0
+                        )
+
+                    until v.Humanoid.Health <= 0 or not _G.AutoFarm
+                end
+            end
+        end)
+    end
+end)
+
+-- AUTO BOSS
+_G.AutoBoss = false
+
+AutoBoss.MouseButton1Click:Connect(function()
+
+    _G.AutoBoss = not _G.AutoBoss
+
+    while _G.AutoBoss do
+        wait()
+
+        pcall(function()
+
+            for i,v in pairs(workspace.Enemies:GetChildren()) do
+
+                if string.find(v.Name,"Boss") then
+
+                    repeat wait()
+
+                        TP(v.HumanoidRootPart.CFrame * CFrame.new(0,20,0))
+
+                        VirtualInputManager:SendMouseButtonEvent(
+                            0,0,0,true,game,0
+                        )
+
+                    until v.Humanoid.Health <= 0 or not _G.AutoBoss
+                end
+            end
+        end)
+    end
+end)
+
+-- KILL AURA
+_G.KillAura = false
+
+KillAura.MouseButton1Click:Connect(function()
+
+    _G.KillAura = not _G.KillAura
+
+    while _G.KillAura do
+        wait()
+
+        pcall(function()
+
+            for i,v in pairs(workspace.Enemies:GetChildren()) do
+
+                if v:FindFirstChild("HumanoidRootPart") then
+
+                    local mag = (chr.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
+
+                    if mag <= 25 then
+
+                        VirtualInputManager:SendMouseButtonEvent(
+                            0,0,0,true,game,0
+                        )
+
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+-- AUTO SEA BEAST
+_G.AutoSea = false
+
+AutoSea.MouseButton1Click:Connect(function()
+
+    _G.AutoSea = not _G.AutoSea
+
+    while _G.AutoSea do
+        wait(2)
+
+        pcall(function()
+
+            if workspace:FindFirstChild("SeaBeasts") then
+
+                for i,v in pairs(workspace.SeaBeasts:GetChildren()) do
+
+                    if v:FindFirstChild("HumanoidRootPart") then
+
+                        repeat wait()
+
+                            TP(v.HumanoidRootPart.CFrame * CFrame.new(0,40,0))
+
+                            VirtualInputManager:SendMouseButtonEvent(
+                                0,0,0,true,game,0
+                            )
+
+                        until v.Humanoid.Health <= 0 or not _G.AutoSea
+                    end
+                end
+            end
+        end)
+    end
+end)
+
+-- SPAWN BOAT
+SpawnBoat.MouseButton1Click:Connect(function()
+
+    pcall(function()
+
+        game:GetService("ReplicatedStorage")
+        .Remotes.CommF_:InvokeServer(
+            "BuyBoat",
+            "Guardian"
+        )
+
+    end)
+
+end)
+
+-- TP ÚLTIMA ILHA
+TPIsland.MouseButton1Click:Connect(function()
+
+    TP(CFrame.new(
+        -12000,
+        300,
+        -9000
+    ))
+
+end)
+
+print("OS PEÇA HUB 👺 LOADED")
